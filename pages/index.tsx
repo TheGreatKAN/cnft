@@ -11,8 +11,12 @@ import stakeContractABI from '../components/ABI/stakeContractABI.json'
 import mintContractABI from '../components/ABI/mintContractABI.json'
 import BoxHeader from '../components/BoxHeader';
 import StakeSection from '../components/Stake';
+import Footer from '../components/Footer'
 import CollectSection from '../components/Collect';
 import UnstakeSection from '../components/Unstake';
+import nft from '../images/nftPrev.png'
+
+import Image from 'next/image' 
 
 declare global {
   interface Window {
@@ -78,8 +82,10 @@ const stakeContractAddress = '0xe0833Fba47fAEF2Ea12FEB674B8a2ca98658d1FD';
   useEffect(() => {
     if (address && address.length > 5) {
       setConnectedAddress(address);
+    } else {
+      setConnectedAddress(undefined);
     }
-  }, [address]);
+  }, [address])
 
   useEffect(()=>{
     console.log(connectedAddress);
@@ -113,6 +119,7 @@ const stakeContractAddress = '0xe0833Fba47fAEF2Ea12FEB674B8a2ca98658d1FD';
             const tokenId = await mintContractInstance.tokenOfOwnerByIndex(connectedAddress, i);
             ids.push(tokenId.toString());
           }
+          // setTokenIds([1,2,3,4,5,6,7,8,9]);
           setTokenIds(ids);
           console.log('tokenIds', ids) 
         } catch (error) {
@@ -125,25 +132,40 @@ const stakeContractAddress = '0xe0833Fba47fAEF2Ea12FEB674B8a2ca98658d1FD';
     }
   }, [connectedAddress, mintContractInstance]);
 
+  const updateTokenIds = (stakedTokenIds: number[]) => {
+   
+    setTokenIds((prevTokenIds) => prevTokenIds.filter((tokenId) => !stakedTokenIds.includes(tokenId)));
+  };
+
 
   return(
     
     <div className={styles.page}>
       <Header  />
     
-    <div className={styles.container}>
-        <div className={styles.box}>
-          <BoxHeader selectedSection={selectedSection} onSectionSelect={handleSectionSelect} />
-          <div className={styles.content}>
-          {selectedSection === 'Stake' && <StakeSection stakeContractInstance={stakeContractInstance} mintContractInstance={mintContractInstance} tokenIds={tokenIds}/>}
-
-            {selectedSection === 'Collect'  && <CollectSection stakeContractInstance={stakeContractInstance} mintContractInstance={mintContractInstance} tokenIds={tokenIds}/>}
-
-            {selectedSection === 'UnStake'  && <UnstakeSection stakeContractInstance={stakeContractInstance} mintContractInstance={mintContractInstance} tokenIds={tokenIds}/>}
-          </div>
+      <div className={styles.container}>
+      <div className={styles.box}>
+        <BoxHeader selectedSection={selectedSection} onSectionSelect={handleSectionSelect} />
+        <div className={styles.content}>
+          
+          {connectedAddress ? (
+            <>
+              {selectedSection === 'Stake' && <StakeSection stakeContractInstance={stakeContractInstance} mintContractInstance={mintContractInstance} tokenIds={tokenIds} connectedAddress={connectedAddress}  onUpdateTokenIds={updateTokenIds} />}
+              {selectedSection === 'Collect' && <CollectSection stakeContractInstance={stakeContractInstance} mintContractInstance={mintContractInstance} tokenIds={tokenIds} connectedAddress={connectedAddress} />}
+              {selectedSection === 'UnStake' && <UnstakeSection stakeContractInstance={stakeContractInstance} mintContractInstance={mintContractInstance} tokenIds={tokenIds} connectedAddress={connectedAddress} />}
+            </>
+          ) : (
+         
+            <div className={styles.notConnected}>
+              <Image src={nft} alt="NFTpreview" height={250} width={125} />
+              <ConnectButton />
+            </div>
+          )}
         </div>
       </div>
-      </div>
+    </div>
+    <Footer />
+  </div>
   );
 };
 

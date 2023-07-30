@@ -1,0 +1,42 @@
+.footerBox{
+    height: .5in;
+    width: 100vw;
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    background-color: .0b210271;
+}
+
+.logoImage{
+width: 50%;
+height: 50%;
+}
+.copyWrite{
+    width: 80%;
+height: 70%;
+}
+.links{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.link{
+    cursor: pointer;
+    width: 50%;
+    height: 50%;
+    margin: 10px;
+}
+
+@media screen and (max-width: 768px) {
+    .copyWrite{
+        display: none;
+        
+    }
+    .links{
+        margin-right: .25in;
+    }
+}

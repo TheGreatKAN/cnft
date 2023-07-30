@@ -8,15 +8,10 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  height: 100px;
+  height: .75in;
   background-color: #0b210271;
 }
 
-.myImage {
-  height: 100%;
-  width: auto;
-  max-width: 100%;
-}
 
 .buttons {
   display: flex;
@@ -44,4 +39,22 @@
   width: 50px;
   height: 50px;
   background-image: url(../images/logo4Head.png);
+}
+
+@media screen and (max-width: 768px) {
+  .myImage{
+    display: none;
+  }
+  .headerBox{
+    justify-content: center;
+    align-items: center;
+
+  }
+  .buttons{
+    width: 85%;
+    margin:5px;
+  }
+  .mintButton{
+    margin-right: 5px;
+  }
 }

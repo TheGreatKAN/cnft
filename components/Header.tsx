@@ -12,8 +12,7 @@ const Header: React.FC = () => {
 
     return(
         <div className={styles.headerBox}>
-            <Image src={logo} className={styles.myImage} alt='logo4Header'  height="100"
-                    width="400"/>
+            <Image src={logo} className={styles.myImage} alt='logo4Header' height={125} width={350}/>
             <div className={styles.buttons}>
                 <ConnectButton />
                 <button onClick={mint} className={styles.mintButton}>Mint</button>
