@@ -16,9 +16,7 @@ interface SectionProps {
     const mintContractAddress = '0x5CD5a6dCf173a4e44CC62dB621C957c4B133E270';
     const stakeContractAddress = '0xe0833Fba47fAEF2Ea12FEB674B8a2ca98658d1FD';
     
- useEffect(()=>{
-        console.log('comeon',mintContractInstance)
-    })
+
 
     const handleTokenClick = (tokenId: number) => {
         setSelectedTokenIds(prevTokenIds => {
@@ -54,6 +52,10 @@ interface SectionProps {
             </div>
         );
     };
+
+    useEffect(()=>{
+        console.log('comeon',mintContractInstance)
+    },[mintContractInstance])
 
     const approveAll = useCallback(async () => {
         if (mintContractInstance) {
@@ -105,23 +107,24 @@ interface SectionProps {
 
     return (
         <div className={styles.boxx}>
-        <button className={styles.button} id={styles.selectBtn} onClick={handleSelectDeselectAll}>
-            {selectedTokenIds.length === tokenIds.length ? 'Deselect All' : 'Select All'}
-        </button>
-        <div className={styles.scrollBox} style={{ overflowY: 'scroll', maxHeight: '50%', width:'100%' }}>
-            {tokenIds.map(tokenId => renderToken(tokenId))}
+        {isApproved ? 
+            <>
+                <button className={styles.button} id={styles.selectBtn} onClick={handleSelectDeselectAll}>
+                    {selectedTokenIds.length === tokenIds.length ? 'Deselect All' : 'Select All'}
+                </button>
+                <div className={styles.scrollBox} style={{ overflowY: 'scroll', maxHeight: '50%', width:'100%' }}>
+                    {tokenIds.map(tokenId => renderToken(tokenId))}
+                </div>
+                <button id={styles.stakeButton} className={styles.button} onClick={() => stakeTokens(selectedTokenIds)}>
+                    Stake Selected
+                </button>
+            </> 
+            :
+            <button className={styles.button} onClick={approveAll}>
+                Approve All
+            </button>
+        }
         </div>
-        {!isApproved && (
-        <button className={styles.button} onClick={approveAll}>
-          Approve All
-        </button>
-      )}
-      
-        <button id={styles.stakeButton} className={styles.button} onClick={() => stakeTokens(selectedTokenIds)}>
-            Stake Selected
-        </button>
-     
-    </div>
 
     );
 };
