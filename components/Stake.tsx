@@ -16,7 +16,9 @@ interface SectionProps {
     const mintContractAddress = '0x5CD5a6dCf173a4e44CC62dB621C957c4B133E270';
     const stakeContractAddress = '0xe0833Fba47fAEF2Ea12FEB674B8a2ca98658d1FD';
     
-
+ useEffect(()=>{
+        console.log('comeon',mintContractInstance)
+    })
 
     const handleTokenClick = (tokenId: number) => {
         setSelectedTokenIds(prevTokenIds => {
