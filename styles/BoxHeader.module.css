@@ -1,0 +1,28 @@
+.header {
+    display: flex;
+    width: 100%;
+  }
+  
+  .section {
+    padding: 5px;
+    flex: 1;
+    display: flex; /* Use flexbox for centering */
+    justify-content: center; /* Horizontally center the content */
+    align-items: center; /* Vertically center the content */
+    cursor: pointer;
+    border: black 2px solid;
+    box-sizing: border-box;
+    
+  }
+  
+  .selected {
+    
+    background-color: #6FFF31;
+  }
+  #stake{
+    
+    border-top-left-radius: 20px;
+  }
+  #unStake{
+    border-top-right-radius: 20px;
+  }
