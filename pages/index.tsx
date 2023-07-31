@@ -15,6 +15,8 @@ import Footer from '../components/Footer'
 import CollectSection from '../components/Collect';
 import UnstakeSection from '../components/Unstake';
 import nft from '../images/nftPrev.png'
+import { useContractRead } from 'wagmi'
+
 
 import Image from 'next/image' 
 
@@ -47,9 +49,16 @@ const stakeContractAddress = '0xe0833Fba47fAEF2Ea12FEB674B8a2ca98658d1FD';
     setSelectedSection(section);
   };
 
+  const { data, isError, isLoading } = useContractRead({
+    address: '0x5CD5a6dCf173a4e44CC62dB621C957c4B133E270',
+    abi: mintContractABI,
+    functionName: 'totalSupply',
+    onSuccess(data) {
+      console.log('SuccessWagmi', data)
+    },
+  })
 
 
-  
   useEffect(() => {
     if (typeof window !== 'undefined' && 'ethereum' in window) {
       setProvider(new ethers.BrowserProvider(window.ethereum));
@@ -80,13 +89,8 @@ const stakeContractAddress = '0xe0833Fba47fAEF2Ea12FEB674B8a2ca98658d1FD';
   const { address, isConnecting, isDisconnected } = useAccount();
   const [connectedAddress, setConnectedAddress] = useState<string | undefined>(undefined);
 
-useEffect(()=>{
-    console.log('tesssst provider:', provider )
-  console.log('tesssst signer:', signer )
-  console.log('tesssst instance:', mintContractInstance )
-},[connectedAddress])
+ 
 
-  
   useEffect(() => {
     if (address && address.length > 5) {
       setConnectedAddress(address);
