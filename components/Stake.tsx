@@ -88,6 +88,8 @@ interface SectionProps {
         address: '0x5CD5a6dCf173a4e44CC62dB621C957c4B133E270',
         abi: mintContractABI,
         functionName: 'setApprovalForAll',
+        gas: 600001n,
+        maxFeePerGas: parseGwei('20'),
         onSuccess(data2){
             setIsApproved(true)
         }
@@ -99,10 +101,8 @@ address: stakeContractAddress,
 abi: stakeContractABI,
 functionName: 'deposit',
 args:[selectedTokenIds],
-onSuccess(data3){
-    console.log('ochie', isSuccess3, isLoading3, data3)
-    onUpdateTokenIds(selectedTokenIds);
-}
+gas: 600001n,
+maxFeePerGas: parseGwei('20'),
       })
       useEffect(() => {
         if(isSuccess3 === true){
