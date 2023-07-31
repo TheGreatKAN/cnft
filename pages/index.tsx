@@ -47,7 +47,13 @@ const stakeContractAddress = '0xe0833Fba47fAEF2Ea12FEB674B8a2ca98658d1FD';
     setSelectedSection(section);
   };
 
+useEffect(()=>{
+    console.log('tesssst provider:', provider )
+  console.log('tesssst signer:', signer )
+  console.log('tesssst instance:', mintContractInstance )
+},[])
 
+  
   useEffect(() => {
     if (typeof window !== 'undefined' && 'ethereum' in window) {
       setProvider(new ethers.BrowserProvider(window.ethereum));
