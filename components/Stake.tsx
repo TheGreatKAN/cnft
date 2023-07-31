@@ -8,6 +8,7 @@ import Image from 'next/image'
 import stakeContractABI from '../components/ABI/stakeContractABI.json'
 import mintContractABI from '../components/ABI/mintContractABI.json'
 import styles from '../styles/Stake.module.css'; 
+import { parseGwei } from 'viem';
 interface SectionProps {
     stakeContractInstance: ethers.Contract | null;
     mintContractInstance: ethers.Contract | null;
@@ -58,10 +59,7 @@ interface SectionProps {
         );
     };
 
-    useEffect(()=>{
-        console.log('comeon',connectedAddress)
-    },[connectedAddress])
-
+    
 
     
     const { data, isError, isLoading } = useContractRead({
@@ -69,6 +67,7 @@ interface SectionProps {
         abi: mintContractABI,
         functionName: 'isApprovedForAll',
         args:[connectedAddress, stakeContractAddress],
+        enabled: connectedAddress !== null && connectedAddress !== undefined,
         onSuccess(data: Boolean) {
           console.log('SuccessWagmi', data)
           if(data === true){
@@ -77,7 +76,7 @@ interface SectionProps {
           
         },
       })
-    // const approveAll = useCallback(async () => {
+   
     //     if (mintContractInstance) {
     //       const tx = await mintContractInstance.setApprovalForAll(stakeContractAddress, true);
     //       await tx.wait(); 
@@ -93,7 +92,22 @@ interface SectionProps {
             setIsApproved(true)
         }
       })
-    // useEffect(() => {
+
+
+      const {data: data3, isLoading: isLoading3, isSuccess: isSuccess3, write: write2} = useContractWrite({
+address: stakeContractAddress,
+abi: stakeContractABI,
+functionName: 'deposit',
+args:[selectedTokenIds],
+
+//   gas: parseGwei('20'),
+onSuccess(data2){
+    console.log('ochie')
+}
+      })
+
+      
+   
     //     const checkApproval = async () => {
     //       if (mintContractInstance) {
     //         const approvalStatus = await mintContractInstance.isApprovedForAll(connectedAddress, stakeContractAddress);
@@ -124,6 +138,7 @@ interface SectionProps {
          
         }
       };
+
 
       
       
