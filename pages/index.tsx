@@ -15,7 +15,7 @@ import Footer from '../components/Footer'
 import CollectSection from '../components/Collect';
 import UnstakeSection from '../components/Unstake';
 import nft from '../images/nftPrev.png'
-import { useContractRead } from 'wagmi'
+import { useContractRead, useContractInfiniteReads, paginatedIndexesConfig  } from 'wagmi'
 
 
 import Image from 'next/image' 
@@ -33,7 +33,6 @@ const SECTIONS = {
 };
 
 
-
 const Home: NextPage = () => {
   const mintContractAddress = '0x5CD5a6dCf173a4e44CC62dB621C957c4B133E270';
 const stakeContractAddress = '0xe0833Fba47fAEF2Ea12FEB674B8a2ca98658d1FD';
@@ -44,19 +43,13 @@ const stakeContractAddress = '0xe0833Fba47fAEF2Ea12FEB674B8a2ca98658d1FD';
   const [totalSupply, setTotalSupply] = useState(0);
   const [tokenIds, setTokenIds] = useState<number[]>([]);
   const [selectedSection, setSelectedSection] = useState('Stake');
-
+const[NFTsOwned, SetNFTsOwned] = useState<number | null>(null)
   const handleSectionSelect = (section: string) => {
     setSelectedSection(section);
   };
-
-  const { data, isError, isLoading } = useContractRead({
-    address: '0x5CD5a6dCf173a4e44CC62dB621C957c4B133E270',
-    abi: mintContractABI,
-    functionName: 'totalSupply',
-    onSuccess(data) {
-      console.log('SuccessWagmi', data)
-    },
-  })
+  const [currentIndex, setCurrentIndex] = useState(0);
+  
+  
 
 
   useEffect(() => {
@@ -121,28 +114,41 @@ const stakeContractAddress = '0xe0833Fba47fAEF2Ea12FEB674B8a2ca98658d1FD';
     }
   }, [signer, mintContractInstance, totalSupply]);
 
-  useEffect(() => {
-    const getTokenIds = async () => {
-      if(mintContractInstance) {
-        try {
-          const balance = await mintContractInstance.balanceOf(connectedAddress);
-          let ids = [];
-          for (let i = 0; i < balance; i++) {
-            const tokenId = await mintContractInstance.tokenOfOwnerByIndex(connectedAddress, i);
-            ids.push(tokenId.toString());
-          }
-          // setTokenIds([1,2,3,4,5,6,7,8,9]);
-          setTokenIds(ids);
-          console.log('tokenIds', ids) 
-        } catch (error) {
-          console.error("Error fetching token IDs: ", error);
-        }
-      }
-    };
-    if(connectedAddress) {
-      getTokenIds();
+  const { data, isError, isLoading } = useContractRead({
+    address: mintContractAddress,
+    abi: mintContractABI,
+    functionName: 'balanceOf',
+    args:[connectedAddress],
+    enabled: connectedAddress !== null && connectedAddress !== undefined,
+    onSuccess: (data) => {
+      SetNFTsOwned(Number(data)); 
     }
-  }, [connectedAddress, mintContractInstance]);
+  })
+  useEffect(()=>{
+    console.log('nftsss', NFTsOwned);
+  },[NFTsOwned])
+
+  const { data: tokenIdData, isError: tokenIdIsError, isLoading: tokenIdIsLoading } = useContractRead({
+    address: mintContractAddress,
+    abi: mintContractABI,
+    functionName: 'tokenOfOwnerByIndex',
+    args:[connectedAddress, currentIndex],
+    enabled: connectedAddress !== null && connectedAddress !== undefined && NFTsOwned !== null && currentIndex < NFTsOwned,
+  });
+  
+  useEffect(() => {
+    if (tokenIdData !== undefined && NFTsOwned !== null && currentIndex < NFTsOwned) {
+      setTokenIds(prevTokenIds => [...prevTokenIds, Number(tokenIdData)]);
+      setCurrentIndex(prevIndex => prevIndex + 1);
+    }
+  }, [tokenIdData, NFTsOwned]);
+
+
+
+
+useEffect(()=>{
+  console.log('Token IDs', tokenIds);
+},[tokenIds]);
 
   const updateTokenIds = (stakedTokenIds: number[]) => {
    
