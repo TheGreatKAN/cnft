@@ -99,7 +99,7 @@ address: stakeContractAddress,
 abi: stakeContractABI,
 functionName: 'deposit',
 args:[selectedTokenIds],
-onSuccess(data2){
+onSuccess(data3){
     console.log('ochie', isSuccess3, isLoading3, data3)
     onUpdateTokenIds(selectedTokenIds);
 }
