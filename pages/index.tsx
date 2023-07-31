@@ -51,7 +51,7 @@ useEffect(()=>{
     console.log('tesssst provider:', provider )
   console.log('tesssst signer:', signer )
   console.log('tesssst instance:', mintContractInstance )
-},[])
+},[connectedAddress])
 
   
   useEffect(() => {
