@@ -1,7 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { ethers } from 'ethers';
+import { useContractWrite } from 'wagmi'
+
+import { useContractRead } from 'wagmi'
 import nft from '../images/nftPrev.png'
 import Image from 'next/image' 
+import stakeContractABI from '../components/ABI/stakeContractABI.json'
+import mintContractABI from '../components/ABI/mintContractABI.json'
 import styles from '../styles/Stake.module.css'; 
 interface SectionProps {
     stakeContractInstance: ethers.Contract | null;
@@ -54,8 +59,26 @@ interface SectionProps {
     };
 
     useEffect(()=>{
-        console.log('comeon',mintContractInstance)
-    },[mintContractInstance])
+        console.log('comeon',connectedAddress)
+    },[connectedAddress])
+
+
+    
+    const { data, isError, isLoading } = useContractRead({
+        address: '0x5CD5a6dCf173a4e44CC62dB621C957c4B133E270',
+        abi: mintContractABI,
+        functionName: 'isApprovedForAll',
+        args:[connectedAddress, stakeContractAddress],
+        onSuccess(data: Boolean) {
+          console.log('SuccessWagmi', data)
+          if(data === true){
+            setIsApproved(true)
+          }
+          
+        },
+      })
+
+
 
     const approveAll = useCallback(async () => {
         if (mintContractInstance) {
@@ -66,16 +89,16 @@ interface SectionProps {
       }, [mintContractInstance, stakeContractAddress]);
       
 
-    useEffect(() => {
-        const checkApproval = async () => {
-          if (mintContractInstance) {
-            const approvalStatus = await mintContractInstance.isApprovedForAll(connectedAddress, stakeContractAddress);
-            setIsApproved(approvalStatus);
-          }
-        };
+    // useEffect(() => {
+    //     const checkApproval = async () => {
+    //       if (mintContractInstance) {
+    //         const approvalStatus = await mintContractInstance.isApprovedForAll(connectedAddress, stakeContractAddress);
+    //         setIsApproved(approvalStatus);
+    //       }
+    //     };
       
-        checkApproval();
-      }, [mintContractInstance, connectedAddress]);
+    //     checkApproval();
+    //   }, [mintContractInstance, connectedAddress]);
 
       const stakeTokens = async (selectedTokenIds: number[]) => {
         try {
