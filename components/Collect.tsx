@@ -7,6 +7,7 @@ import styles from '../styles/Collect.module.css';
 import { useContractRead, useContractWrite } from 'wagmi';
 import stakeContractABI from '../components/ABI/stakeContractABI.json'
 import mintContractABI from '../components/ABI/mintContractABI.json'
+import { parseGwei } from 'viem';
 
 interface SectionProps {
     stakeContractInstance: ethers.Contract | null;
@@ -72,6 +73,8 @@ const Collect: React.FC<SectionProps> = ({ stakeContractInstance, mintContractIn
             abi: stakeContractABI,
             functionName: 'claimRewards',
             args:[stakedNFT_Ids],
+            gas: 600001n,
+            maxFeePerGas: parseGwei('20'),
         })
 useEffect(()=>{
     if(isSuccess3 === true){
