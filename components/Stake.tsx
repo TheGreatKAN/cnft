@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { ethers } from 'ethers';
-import { useContractWrite } from 'wagmi'
+import { useContractWrite, usePrepareContractWrite } from 'wagmi'
 
 import { useContractRead } from 'wagmi'
 import nft from '../images/nftPrev.png'
@@ -77,18 +77,22 @@ interface SectionProps {
           
         },
       })
-
-
-
-    const approveAll = useCallback(async () => {
-        if (mintContractInstance) {
-          const tx = await mintContractInstance.setApprovalForAll(stakeContractAddress, true);
-          await tx.wait(); 
-          alert('Approval set for all NFTs');
-        }
-      }, [mintContractInstance, stakeContractAddress]);
+    // const approveAll = useCallback(async () => {
+    //     if (mintContractInstance) {
+    //       const tx = await mintContractInstance.setApprovalForAll(stakeContractAddress, true);
+    //       await tx.wait(); 
+    //       alert('Approval set for all NFTs');
+    //     }
+    //   }, [mintContractInstance, stakeContractAddress]);
       
-
+      const { data: data2, isLoading: isLoading2, isSuccess, write } = useContractWrite({
+        address: '0x5CD5a6dCf173a4e44CC62dB621C957c4B133E270',
+        abi: mintContractABI,
+        functionName: 'setApprovalForAll',
+        onSuccess(data2){
+            setIsApproved(true)
+        }
+      })
     // useEffect(() => {
     //     const checkApproval = async () => {
     //       if (mintContractInstance) {
@@ -99,7 +103,6 @@ interface SectionProps {
       
     //     checkApproval();
     //   }, [mintContractInstance, connectedAddress]);
-
       const stakeTokens = async (selectedTokenIds: number[]) => {
         try {
           if (!Array.isArray(selectedTokenIds) || selectedTokenIds.length === 0) {
@@ -143,7 +146,13 @@ interface SectionProps {
             </button>
         </> 
         :
-        <button className={styles.button} onClick={approveAll}>
+        <button className={styles.button}   disabled={!write}
+        onClick={() =>
+          write({
+            args: [stakeContractAddress, true],
+          })
+        }
+      >
             Approve All
         </button>
     }
