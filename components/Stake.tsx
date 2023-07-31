@@ -99,52 +99,16 @@ address: stakeContractAddress,
 abi: stakeContractABI,
 functionName: 'deposit',
 args:[selectedTokenIds],
-
-//   gas: parseGwei('20'),
 onSuccess(data2){
-    console.log('ochie')
+    console.log('ochie', isSuccess3, isLoading3, data3)
+    onUpdateTokenIds(selectedTokenIds);
 }
       })
-
-      
-   
-    //     const checkApproval = async () => {
-    //       if (mintContractInstance) {
-    //         const approvalStatus = await mintContractInstance.isApprovedForAll(connectedAddress, stakeContractAddress);
-    //         setIsApproved(approvalStatus);
-    //       }
-    //     };
-      
-    //     checkApproval();
-    //   }, [mintContractInstance, connectedAddress]);
-      const stakeTokens = async (selectedTokenIds: number[]) => {
-        try {
-          if (!Array.isArray(selectedTokenIds) || selectedTokenIds.length === 0) {
-            alert('Please select the NFTs you want to stake');
-            return;
-          }
-          if (!stakeContractInstance) {
-            console.error('Stake contract instance is null');
-            return;
-          }
-          const transaction = await stakeContractInstance.deposit(selectedTokenIds);
-          await transaction.wait();
-          console.log('Stake successful for tokens: ', selectedTokenIds);
-          onUpdateTokenIds(selectedTokenIds);
-       
-          
-        } catch (error) {
-          console.error('Error staking tokens: ', error);
-         
+      useEffect(() => {
+        if(isSuccess3 === true){
+            onUpdateTokenIds(selectedTokenIds);
         }
-      };
-
-
-      
-      
-      
-
-
+      }, [isSuccess3]);
 
     return (
        <div className={styles.boxx}>
@@ -156,7 +120,7 @@ onSuccess(data2){
             <div className={styles.scrollBox} style={{ overflowY: 'scroll', maxHeight: '50%', width:'100%' }}>
                 {tokenIds.map(tokenId => renderToken(tokenId))}
             </div>
-            <button id={styles.stakeButton} className={styles.button} onClick={() => stakeTokens(selectedTokenIds)}>
+            <button id={styles.stakeButton} className={styles.button} disabled={!write} onClick={() => write2()}>
                 Stake Selected
             </button>
         </> 
