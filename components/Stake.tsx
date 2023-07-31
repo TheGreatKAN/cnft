@@ -9,8 +9,9 @@ interface SectionProps {
     tokenIds: number[];
     connectedAddress: string
     onUpdateTokenIds: (stakedTokenIds: number[]) => void;
+    signer: any
   }
-  const Stake: React.FC<SectionProps> = ({ stakeContractInstance, mintContractInstance, tokenIds, connectedAddress, onUpdateTokenIds, }) => {
+  const Stake: React.FC<SectionProps> = ({ stakeContractInstance, mintContractInstance, tokenIds, connectedAddress, onUpdateTokenIds, signer }) => {
     const [selectedTokenIds, setSelectedTokenIds] = useState<number[]>([]);
     const [isApproved, setIsApproved] = useState<boolean>(false); 
     const _mintContractAddress = '0x5CD5a6dCf173a4e44CC62dB621C957c4B133E270';
@@ -77,14 +78,14 @@ interface SectionProps {
 
     useEffect(() => {
         const checkApproval = async () => {
-          if (mintContractInstance) {
-            const approvalStatus = await mintContractInstance.isApprovedForAll(connectedAddress, stakeContractAddress);
+          if (_mintContractInstance) {
+            const approvalStatus = await _mintContractInstance.isApprovedForAll(connectedAddress, _stakeContractAddress);
             setIsApproved(approvalStatus);
           }
         };
       
         checkApproval();
-      }, [mintContractInstance, connectedAddress]);
+      }, [_mintContractInstance, connectedAddress]);
 
       const stakeTokens = async (selectedTokenIds: number[]) => {
         try {
