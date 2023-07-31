@@ -153,6 +153,7 @@ useEffect(()=>{
   const updateTokenIds = (stakedTokenIds: number[]) => {
    
     setTokenIds((prevTokenIds) => prevTokenIds.filter((tokenId) => !stakedTokenIds.includes(tokenId)));
+    
   };
 
 
