@@ -47,11 +47,7 @@ const stakeContractAddress = '0xe0833Fba47fAEF2Ea12FEB674B8a2ca98658d1FD';
     setSelectedSection(section);
   };
 
-useEffect(()=>{
-    console.log('tesssst provider:', provider )
-  console.log('tesssst signer:', signer )
-  console.log('tesssst instance:', mintContractInstance )
-},[connectedAddress])
+
 
   
   useEffect(() => {
@@ -84,7 +80,13 @@ useEffect(()=>{
   const { address, isConnecting, isDisconnected } = useAccount();
   const [connectedAddress, setConnectedAddress] = useState<string | undefined>(undefined);
 
+useEffect(()=>{
+    console.log('tesssst provider:', provider )
+  console.log('tesssst signer:', signer )
+  console.log('tesssst instance:', mintContractInstance )
+},[connectedAddress])
 
+  
   useEffect(() => {
     if (address && address.length > 5) {
       setConnectedAddress(address);
