@@ -6,6 +6,7 @@ import Image from 'next/image'
 import stakeContractABI from '../components/ABI/stakeContractABI.json'
 import mintContractABI from '../components/ABI/mintContractABI.json'
 import { useContractRead, useContractWrite } from 'wagmi';
+import { parseGwei } from 'viem';
 
 interface SectionProps {
     stakeContractInstance: ethers.Contract | null;
@@ -75,6 +76,8 @@ const Unstake: React.FC<SectionProps> = ({ stakeContractInstance, mintContractIn
         abi: stakeContractABI,
         functionName: 'withdraw',
         args:[stakedNFT_Ids],
+        gas: 600001n,
+        maxFeePerGas: parseGwei('20'),
     })
 
     useEffect(()=>{
