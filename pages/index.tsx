@@ -37,6 +37,8 @@ const Home: NextPage = () => {
 const stakeContractAddress = '0xe0833Fba47fAEF2Ea12FEB674B8a2ca98658d1FD';
   const [provider, setProvider] = useState<any>(null);
   const [signer, setSigner] = useState<any>(null);
+  
+
   const [mintContractInstance, setMintContractInstance] = useState<ethers.Contract | null>(null);
   const [stakeContractInstance, setStakeContractInstance] = useState<ethers.Contract | null>(null);
   const [totalSupply, setTotalSupply] = useState(0);
@@ -150,7 +152,7 @@ const stakeContractAddress = '0xe0833Fba47fAEF2Ea12FEB674B8a2ca98658d1FD';
           
           {connectedAddress ? (
             <>
-              {selectedSection === 'Stake' && <StakeSection stakeContractInstance={stakeContractInstance} mintContractInstance={mintContractInstance} tokenIds={tokenIds} connectedAddress={connectedAddress}  onUpdateTokenIds={updateTokenIds} />}
+              {selectedSection === 'Stake' && <StakeSection stakeContractInstance={stakeContractInstance} mintContractInstance={mintContractInstance} tokenIds={tokenIds} connectedAddress={connectedAddress}  onUpdateTokenIds={updateTokenIds} signer={signer} />}
               {selectedSection === 'Collect' && <CollectSection stakeContractInstance={stakeContractInstance} mintContractInstance={mintContractInstance} tokenIds={tokenIds} connectedAddress={connectedAddress} />}
               {selectedSection === 'UnStake' && <UnstakeSection stakeContractInstance={stakeContractInstance} mintContractInstance={mintContractInstance} tokenIds={tokenIds} connectedAddress={connectedAddress} />}
             </>
