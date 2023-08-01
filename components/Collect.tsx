@@ -73,8 +73,8 @@ const Collect: React.FC<SectionProps> = ({ stakeContractInstance, mintContractIn
             abi: stakeContractABI,
             functionName: 'claimRewards',
             args:[stakedNFT_Ids],
-            gas: 600001n,
-            maxFeePerGas: parseGwei('20'),
+            gas: BigInt(600001 * stakedNFT_Ids.length),
+            
         })
 useEffect(()=>{
     if(isSuccess3 === true){
