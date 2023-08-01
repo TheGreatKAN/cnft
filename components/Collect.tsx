@@ -73,7 +73,7 @@ const Collect: React.FC<SectionProps> = ({ stakeContractInstance, mintContractIn
             abi: stakeContractABI,
             functionName: 'claimRewards',
             args:[stakedNFT_Ids],
-            gasPrice: BigInt(Math.ceil(5 * 1e9 * stakedNFT_Ids.length)),
+            gas: BigInt(300000 * stakedNFT_Ids.length),
             
         })
 useEffect(()=>{
