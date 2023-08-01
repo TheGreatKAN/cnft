@@ -53,7 +53,9 @@ interface SectionProps {
     
         return (
             <div key={tokenId} className={tokenClass} onClick={() => handleTokenClick(tokenId)}>
-                <Image src={nft} alt={`token ${tokenId}`} height={100} width={50} />
+                   <div className={styles.imageBox}>
+            <Image src={nft} alt={`token ${tokenId}`} fill={true}  />
+            </div>
                 <span>{tokenId}</span>
             </div>
         );
@@ -76,13 +78,6 @@ interface SectionProps {
           
         },
       })
-   
-    //     if (mintContractInstance) {
-    //       const tx = await mintContractInstance.setApprovalForAll(stakeContractAddress, true);
-    //       await tx.wait(); 
-    //       alert('Approval set for all NFTs');
-    //     }
-    //   }, [mintContractInstance, stakeContractAddress]);
       
       const { data: data2, isLoading: isLoading2, isSuccess, write } = useContractWrite({
         address: '0x5CD5a6dCf173a4e44CC62dB621C957c4B133E270',
