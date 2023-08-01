@@ -49,7 +49,10 @@ const Unstake: React.FC<SectionProps> = ({ stakeContractInstance, mintContractIn
     
         return (
             <div key={tokenId} className={tokenClass} onClick={() => handleTokenClick(tokenId)}>
-            <Image src={nft} alt={`token ${tokenId}`} height={100} width={50} />
+                <div className={styles.imageBox}>
+            <Image src={nft} alt={`token ${tokenId}`} fill={true}  />
+            </div>
+           
             <span>{tokenId}</span>
         </div>
         );
