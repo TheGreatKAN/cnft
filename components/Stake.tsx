@@ -101,7 +101,7 @@ address: stakeContractAddress,
 abi: stakeContractABI,
 functionName: 'deposit',
 args:[selectedTokenIds],
-gas: BigInt(600001 * selectedTokenIds.length),
+gasPrice: BigInt(Math.ceil(5 * 1e9 * selectedTokenIds.length)),
 
       })
       useEffect(() => {
