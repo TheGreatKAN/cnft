@@ -19,7 +19,7 @@
   height: 5in;
   border-radius: 25px;
   border: #000 2px solid;
-      margin-top: 0.5in;
+  margin-top: 0.5in;
 }
 
 .box {
@@ -46,4 +46,15 @@
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
+}
+
+@media (max-height: 600px) {
+  .container {
+    height: 3.3in; 
+  }
+  .notConnected{
+    justify-content: flex-end;
+    width: 50%;
+    height: 50%;
+  }
 }
