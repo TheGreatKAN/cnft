@@ -90,8 +90,11 @@ useEffect(()=>{
   return (
     <div className={styles.boxxx}>
          <h5>Each NFT recieves 1 KIWI per day! </h5>
-      <Image src={nft} alt='nft' width={110} height={200} />
+         <div className={styles.imageBox}>
+            <Image src={nft} alt='nft' fill={true}  />
+            </div>
       <h5>Number of CNFTs Staked: {stakedNFT_Ids.length} </h5>
+      
       <Image src={rewardsLogo} alt='rewardsLogo' width={150} height={50} />
       <div className={styles.textBox}>
   {accumulatedRewards}
