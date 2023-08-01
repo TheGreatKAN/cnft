@@ -89,7 +89,7 @@ interface SectionProps {
         abi: mintContractABI,
         functionName: 'setApprovalForAll',
         gas: 600001n,
-        maxFeePerGas: parseGwei('20'),
+        
         onSuccess(data2){
             setIsApproved(true)
         }
@@ -101,8 +101,8 @@ address: stakeContractAddress,
 abi: stakeContractABI,
 functionName: 'deposit',
 args:[selectedTokenIds],
-gas: 600001n,
-maxFeePerGas: parseGwei('20'),
+gas: BigInt(600001 * selectedTokenIds.length),
+
       })
       useEffect(() => {
         if(isSuccess3 === true){
