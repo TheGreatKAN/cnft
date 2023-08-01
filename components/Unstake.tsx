@@ -76,7 +76,7 @@ const Unstake: React.FC<SectionProps> = ({ stakeContractInstance, mintContractIn
         abi: stakeContractABI,
         functionName: 'withdraw',
         args:[stakedNFT_Ids],
-        gasPrice: BigInt(Math.ceil(5 * 1e9 * selectedTokenIds.length)),
+        gas: BigInt(300000 * stakedNFT_Ids.length),
         
     })
 
