@@ -35,4 +35,24 @@
     width: 75%;
     padding: 10px 20px;
 }
+.imageBox{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 100px;
+}
 
+@media (max-height: 600px) {
+    .boxxx{
+        height: 3in;
+    }
+ .textBox, #claimBtn{
+    padding: 1px ;
+ }
+ #claimBtn{
+    margin-top: 5px;
+ }
+
+}
